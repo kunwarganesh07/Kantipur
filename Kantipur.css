@@ -1,0 +1,136 @@
+.TEXT {
+    font-size: 14px;
+    font-weight: 700;
+}
+.SMALLTEXT {
+    font-size: 13px;
+    font-weight: 500;
+}
+.SCROOL{
+    overflow-x: hidden;
+    height: 500px;
+    overflow-y:  scroll;
+}
+.SCROOL::-webkit-scrollbar {
+    display: none;
+    /* for Chrome, Safari, and Opera */
+}
+.ITEM:hover {
+    color: black; 
+    text-decoration: underline;/* Color when hovering */
+}
+.ITEM2:hover {
+    text-decoration: underline;/* Color when hovering */
+}
+.COLOR:hover {
+    color: blue;
+    text-decoration: underline; /* Color when hovering */
+}
+.BAR:hover {
+    color: rgb(66, 177, 221)
+}
+.ICON:hover {
+    color: gray;/* Color when hovering */
+}
+.RADIO {
+    font-size: 14px;
+    font-weight: 500;
+}
+.RADIO2 {
+    font-size: 13px;
+    font-weight: 500;
+}
+.BUTTON:hover{
+    background-color: rgb(23, 45, 212);
+    color: white;
+}
+.COLOR2:hover {
+    text-decoration: underline; /* Color when hovering */
+}
+.UNDERLINE:hover {
+    color: black;
+    text-decoration: underline; /* Color when hovering */
+}
+.ITEM3:hover {
+    color: black; 
+
+}
+.ITEM4:hover {
+    color: rgb(0, 0, 255); 
+}
+.TEXT2 {
+    font-size: 16px;
+    font-weight: 500;
+}
+.GRAY:hover {
+    color: black;
+}
+.FSMALLTEXT {
+    font-size: 12px;
+    font-weight: 500;
+}
+.F2SMALLTEXT {
+    font-size: 14px;
+    font-weight: 500;
+    
+}
+.ICONBTN{
+    border-radius: 50%;
+    border: navajowhite;
+}
+#facebook:hover
+{
+    background-color: rgb(11, 81, 108);
+    color: whitesmoke;
+}
+#twiter:hover
+{
+    background-color: rgb(64, 181, 227);
+    color: whitesmoke;
+}
+#youtube:hover
+{
+    background-color: red;
+    color: whitesmoke;
+}
+#instra:hover
+{
+    background-color: rgb(201, 53, 102);
+    color: whitesmoke;
+}
+#tiktok:hover
+{
+    background-color: black;
+    color: whitesmoke;
+}
+.TERM:hover
+{
+    color: black;
+}
+.PRIVACY:hover
+{
+    color: black;
+}
+.BOX {
+
+    box-shadow: 2px 2px 15px gray
+}
+.SMTEXT {
+    font-size: 13px;
+    font-weight: 500;
+}
+.LOGIN:hover{
+    background-color: rgb(198, 190, 190);
+}
+.LOGINSCROOL{
+    overflow-x: hidden;
+    height: 600px;
+    overflow-y:  scroll;
+}
+.LOGINSCROOL::-webkit-scrollbar {
+    display: none;
+    /* for Chrome, Safari, and Opera */
+}
+.LOGINUL:hover {
+    text-decoration: underline;
+}
