@@ -134,3 +134,9 @@
 .LOGINUL:hover {
     text-decoration: underline;
 }
+.PHOTO:hover img {
+    transform: scale(1.06);
+    transition: all 0.5s ease-in-out;
+}
+
+

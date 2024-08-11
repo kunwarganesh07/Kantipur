@@ -5,12 +5,314 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KANTIPUR</title>
+    <link rel="icon " type="image/x-icon" href="IMAGE/icon.jpg">
     <link rel="stylesheet" href="Kantipur.css">
     <link rel="stylesheet" href="https://unpkg.com/xzoom/dist/xzoom.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <style>
+        @import 'https://fonts.googleapis.com/css?family=Calligraffitti';
+        @import 'https://fonts.googleapis.com/css?family=Montserrat';
+        $red: #ce3745;
 
+        @mixin menu-opened {
+
+            $t: .1;
+
+            @for $i from 1 through 6 {
+                $temp: #{.85+$t}s;
+
+                .menu-open &:nth-child(#{$i}) {
+                    opacity: 1;
+                    transition: .2s opacity $temp;
+                }
+
+                $t: $t + .1;
+            }
+        }
+
+        @mixin menu-closed {
+
+            @for $i from 1 through 6 {
+                $temp: #{$i*.05}s;
+
+                &:nth-child(#{$i}) {
+                    opacity: 0;
+                    transition: .2s opacity $temp;
+                }
+
+            }
+        }
+
+        html {
+            font-size: 12px;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            padding-top: 50px;
+
+            &.menu-open {
+                overflow: hidden;
+            }
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navigation {
+
+            .logo {
+                position: fixed;
+                left: 32px;
+                top: 42px;
+                z-index: 10;
+                opacity: 1;
+                transition: opacity .3s;
+
+                .logo-text {
+                    display: inline-block;
+                    font-size: 1.2em;
+                    background-size: cover;
+                    color: #fff;
+                    font-family: 'Calligraffitti', serif;
+                }
+            }
+
+            .hamburger-menu {
+                width: 40px;
+                height: 40px;
+                position: fixed;
+                padding: 15px 8px;
+                top: 32px;
+                right: 32px;
+                cursor: pointer;
+                z-index: 999;
+                opacity: 1;
+
+                &:hover {
+
+                    .hamburger {
+
+                        &::before {
+                            transform: translate(0, -1px);
+                        }
+
+                        &::after {
+                            transform: translate(0, 1px);
+                        }
+                    }
+                }
+
+                .hamburger {
+                    width: 24px;
+                    height: 10px;
+                    position: relative;
+
+                    &::before,
+                    &::after {
+                        content: '';
+                        width: 24px;
+                        height: 2px;
+                        background: #fff;
+                        position: absolute;
+                        left: 0;
+                        transition: all .3s;
+                    }
+
+                    &::before {
+                        top: 0;
+                    }
+
+                    &::after {
+                        top: 8px;
+                    }
+                }
+
+                .menu-open & {
+
+                    .hamburger {
+
+                        &::before,
+                        &::after {
+                            background: #fff;
+                        }
+
+                        &::before {
+                            transform: rotate(45deg);
+                        }
+
+                        &::after {
+                            top: 0;
+                            transform: rotate(-45deg);
+                        }
+                    }
+                }
+            }
+
+            .menu-container {
+                width: 0%;
+                height: 100%;
+                position: fixed;
+                display: block;
+                top: 0;
+                right: 0;
+                z-index: 800;
+                overflow: hidden;
+                transition: all .5s cubic-bezier(.99, .04, .87, 1) .3s;
+                background: $red;
+                opacity: 0;
+
+                .menu-open & {
+                    width: 100%;
+                    opacity: 1;
+                }
+
+                .menu {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-align: center;
+                    z-index: 1;
+                    list-style: none;
+                    margin: 0;
+
+                    @media (max-width: 667px) and (min-width: 320px) and (orientation: landscape) {
+                        display: initial;
+
+                        li {
+                            display: inline-block;
+                            margin: 0 16px;
+
+                            &:nth-child(4) {
+                                margin: 0;
+                            }
+                        }
+                    }
+
+                    li {
+                        @include menu-opened;
+                        @include menu-closed;
+                        padding: 0;
+                        flex: 1;
+
+                        &:nth-child(4) {
+
+                            p {
+                                margin: 16px 0;
+                            }
+
+                            @media (max-width: 667px) and (min-width: 320px) and (orientation: landscape) {
+
+                                p {
+                                    margin: 0;
+                                }
+                            }
+                        }
+
+                        &.menu-line {
+                            width: 30px;
+                            height: 1px;
+                            background: #fff;
+                            margin: 32px auto 16px;
+                            padding: 0;
+                            flex: initial;
+
+                            @media (max-width: 667px) and (min-width: 320px) and (orientation: landscape) {
+                                display: none;
+                            }
+
+                            @media (min-width: 667px) {
+                                width: 1px;
+                                height: 87px;
+                            }
+                        }
+
+                        a {
+                            display: block;
+                            color: #fff;
+                            font-size: 1.5rem;
+                            transition: color .3s;
+                            padding: 16px 0;
+                            outline: 0;
+
+
+                            @media (min-width: 1190px) {
+                                font-size: 2rem;
+                            }
+                        }
+
+                        p {
+                            color: #fff;
+                            font-size: 1rem;
+                            margin-bottom: 0;
+
+                            @media (min-width: 930px) {
+                                font-size: 1.2rem;
+                            }
+
+                            @media (min-width: 1190px) {
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+                }
+
+                .menu-info {
+                    text-align: center;
+                    position: absolute;
+                    width: 100%;
+                    bottom: 16px;
+                    line-height: 1.6em;
+                    left: 0;
+                    color: #fff;
+                    z-index: 1;
+                    padding: 0 16px;
+                    transform: translate(0, calc(100% + 16px));
+                    transition: .3s 1s;
+
+                    p {
+                        font-size: 1rem;
+                        margin-bottom: 0;
+
+                        @media (min-width: 930px) {
+                            font-size: 1.4rem;
+                        }
+
+                        @media (min-width: 1190px) {
+                            font-size: 1.7rem;
+                        }
+                    }
+
+                    .menu-open & {
+                        transform: translate(0, 0);
+                    }
+                }
+            }
+        }
+
+        section {
+            margin: 0 90px 0 0;
+
+            article {
+                text-align: center;
+                margin-top: 50px;
+                color: #fff;
+                font-size: 1.5em;
+                letter-spacing: .12em;
+                text-shadow: 1px 1px 1px rgba(0, 0, 0, .6);
+            }
+        }
     </style>
 </head>
 
@@ -31,6 +333,7 @@
                 </div>
             </div>
         </div>
+        <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg bg-body-tertiary mt-3"
             style="border-bottom:1px solid gray;  border-top: 1px solid gray;">
             <div class="container-fluid">
@@ -205,13 +508,274 @@
                     </ul>
 
                     <div class="justify-content-end">
-                        <button type="submit" style="background-color: blue; color: antiquewhite; border: none;"> <i
-                                class="fa-regular fa-user"></i> Login</button>
+                        <header id="head">
+                            <nav id="main-navigation" class="navigation">
+                                <div class="hamburger-menu">
+                                    <button type="submit" style="background-color: blue; color: antiquewhite; border: none;"> <i
+                                        class="fa-regular fa-user"></i> Login</button>
+                                </div>
+                                <div class="menu-container" style="background-color: #fff;">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul class="nav nav-underline gap-5 ms-5" id="myTab" role="tablist">
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link active" id="समाचार-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#समाचार-tab-pane" type="button" role="tab" aria-controls="समाचार-tab-pane"
+                                                        aria-selected="true">समाचार
+                                                        डाइजेस्ट</button>
+                                                </li>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="विविध-tab" data-bs-toggle="tab" data-bs-target="#विविध-tab-pane"
+                                                        type="button" role="tab" aria-controls="विविध-tab-pane" aria-selected="false">विविध</button>
+                                                </li>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="लेख-tab" data-bs-toggle="tab" data-bs-target="#लेख-tab-pane"
+                                                        type="button" role="tab" aria-controls="लेख-tab-pane" aria-selected="false">लेख
+                                                        लेख्नुहोस्</button>
+                                                </li>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="प्रोफाइल-tab" data-bs-toggle="tab" data-bs-target="#प्रोफाइल-tab-pane"
+                                                        type="button" role="tab" aria-controls="प्रोफाइल-tab-pane" aria-selected="false"><i
+                                                            class="fa-regular fa-user"></i><span class="ms-2">प्रोफाइल</span></button>
+                                                </li>
+                                            </ul>
+                                
+                                            <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade show active" id="समाचार-tab-pane" role="tabpanel" aria-labelledby="समाचार-tab"
+                                                    tabindex="0">
+                                                    <hr style="margin-top: -2px;">
+                                                    <div class="LOGINSCROOL">
+                                                        <div class="row" style="background-color: rgb(245, 239, 239);">
+                                                            <div class="mt-3 mb-2">
+                                                                <h6 class="ms-4"><b class="TEXT">लगइन</b></h6>
+                                                                <h6 class="ms-4"><b class="TEXT">संकलित समाचार र थप सूचना प्राप्त गर्नुहोस्</b></h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row justify-content-center mt-5">
+                                                            <div class="col-md-9 text-center BOX mb-5" style=" border: 1px solid rgb(209, 203, 203);">
+                                                                <div class="mt-5 mb-4">
+                                                                    <img src="https://jcss-cdn.ekantipur.com/kantipurdaily/images/publication.png"
+                                                                        alt="">
+                                                                    <span><b>कान्तिपुर नेटवर्क</b></span>
+                                                                    <span class="ms-2 text-secondary">लगइन</span>
+                                                                    <hr>
+                                                                </div>
+                                                                <div class="row mt-5">
+                                                                    <div class="col-md-6 text-center mt-4">
+                                                                        <button
+                                                                            style="background-color: #3c5a99;color: white; border: none;width: 200px; height: 40px;border-radius: 3px;">
+                                                                            <i class="fa-brands fa-facebook-f"></i>
+                                                                            <b class="ms-2"> फेसबुकबाट लगइन</b>
+                                                                        </button>
+                                                                        <h6 class="mt-5"><b class="text-secondary">अथवा</b></h6>
+                                                                        <input class="mt-3" type="email" placeholder="ई-मेल"
+                                                                            style="border-radius: 5px; width: 350px; border: 1px solid gray;">
+                                                                        <input class="mt-3" type="email" placeholder="पासवर्ड"
+                                                                            style="border-radius: 5px; width: 350px; border: 1px solid gray;">
+                                                                        <p class="SMTEXT text-secondary mt-2">पासवर्ड बिर्सनुभयो ?</p>
+                                                                        <button class="LOGIN mt-3"
+                                                                            style="border: 1px solid gray;width: 200px; height: 40px;border-radius: 3px;">
+                                                                            <b class="ms-2"> लगइन</b>
+                                                                        </button>
+                                                                        <div class="mt-4 mb-4">
+                                                                            <p class="SMTEXT text-secondary mt-2">तपाईंको खाता छैन ? <a href=""
+                                                                                    style="text-decoration: none;color: black;"><span
+                                                                                        class="LOGINUL">साइन अप </span></a>गर्नुहोस् ।</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-5 mt-4">
+                                                                        <div class="text-center">
+                                                                            <i class="fa-regular fa-circle-question"></i><span class="ms-2"
+                                                                                style="font-size: 17px;font-weight: 500;">कान्तिपुर नेटवर्कसँग किन आवद्ध
+                                                                                हुने ?</span>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 text-start mt-3" style="font-size: 13px;">
+                                                                                <ul>
+                                                                                    <li class="mt-2"><b>समाचार डाइजेस्ट:</b> तपाईले पढ्न छुटाउनुभएका
+                                                                                        समाचारहरु पढ्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>संग्रहित समाचार:</b> तपाईले संग्रह गर्नुभएको
+                                                                                        समाचारहरु पढ्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>प्रस्तावित समाचार:</b> तपाईका रुचि अनुसारका
+                                                                                        समाचारहरु पढ्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>विविध: राशिफल,</b> चलचित्र, विनिमय दर तथा
+                                                                                        भ्याकेन्सी लगायतका जानकारी प्राप्त गर्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>लेख लेख्नुहोस्: </b>आफ्नो विचार कान्तिपुर
+                                                                                        वेभसाइटमा प्रकाशनका लागि लेख्न सक्नुहुनेछ।</li>
+                                                                                    <li class="mt-2"><b>प्रोफाइल:</b> आफ्नो सदस्यता विवरण प्राप्त गर्न
+                                                                                        सक्नुहुनेछ ।</li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                                <div class="tab-pane fade" id="विविध-tab-pane" role="tabpanel" aria-labelledby="विविध-tab" tabindex="0">
+                                
+                                                </div>
+                                                <div class="tab-pane fade" id="लेख-tab-pane" role="tabpanel" aria-labelledby="लेख-tab" tabindex="0">
+                                                    <hr style="margin-top: -2px;">
+                                                    <div class="LOGINSCROOL">
+                                                        <div class="row" style="background-color: rgb(245, 239, 239);">
+                                                            <div class="mt-3 mb-2">
+                                                                <h6 class="ms-4"><b class="TEXT">लगइन</b></h6>
+                                                                <h6 class="ms-4"><b class="TEXT">संकलित समाचार र थप सूचना प्राप्त गर्नुहोस्</b></h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row justify-content-center mt-5">
+                                                            <div class="col-md-9 text-center BOX mb-5" style=" border: 1px solid rgb(209, 203, 203);">
+                                                                <div class="mt-5 mb-4">
+                                                                    <img src="https://jcss-cdn.ekantipur.com/kantipurdaily/images/publication.png"
+                                                                        alt="">
+                                                                    <span><b>कान्तिपुर नेटवर्क</b></span>
+                                                                    <span class="ms-2 text-secondary">लगइन</span>
+                                                                    <hr>
+                                                                </div>
+                                                                <div class="row mt-5">
+                                                                    <div class="col-md-6 text-center mt-4">
+                                                                        <button
+                                                                            style="background-color: #3c5a99;color: white; border: none;width: 200px; height: 40px;border-radius: 3px;">
+                                                                            <i class="fa-brands fa-facebook-f"></i>
+                                                                            <b class="ms-2"> फेसबुकबाट लगइन</b>
+                                                                        </button>
+                                                                        <h6 class="mt-5"><b class="text-secondary">अथवा</b></h6>
+                                                                        <input class="mt-3" type="email" placeholder="ई-मेल"
+                                                                            style="border-radius: 5px; width: 350px; border: 1px solid gray;">
+                                                                        <input class="mt-3" type="email" placeholder="पासवर्ड"
+                                                                            style="border-radius: 5px; width: 350px; border: 1px solid gray;">
+                                                                        <a href=""><p class="SMTEXT text-secondary mt-2">पासवर्ड बिर्सनुभयो ?</p></a>
+                                                                        <button class="LOGIN mt-3"
+                                                                            style="border: 1px solid gray;width: 200px; height: 40px;border-radius: 3px;">
+                                                                            <b class="ms-2"> लगइन</b>
+                                                                        </button>
+                                                                        <div class="mt-4 mb-4">
+                                                                            <p class="SMTEXT text-secondary mt-2">तपाईंको खाता छैन ? <a href=""
+                                                                                    style="text-decoration: none;color: black;"><span
+                                                                                        class="LOGINUL">साइन अप </span></a>गर्नुहोस् ।</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-5 mt-4">
+                                                                        <div class="text-center">
+                                                                            <i class="fa-regular fa-circle-question"></i><span class="ms-2"
+                                                                                style="font-size: 17px;font-weight: 500;">कान्तिपुर नेटवर्कसँग किन आवद्ध
+                                                                                हुने ?</span>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 text-start mt-3" style="font-size: 13px;">
+                                                                                <ul>
+                                                                                    <li class="mt-2"><b>समाचार डाइजेस्ट:</b> तपाईले पढ्न छुटाउनुभएका
+                                                                                        समाचारहरु पढ्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>संग्रहित समाचार:</b> तपाईले संग्रह गर्नुभएको
+                                                                                        समाचारहरु पढ्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>प्रस्तावित समाचार:</b> तपाईका रुचि अनुसारका
+                                                                                        समाचारहरु पढ्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>विविध:</b>राशिफल, चलचित्र, विनिमय दर तथा
+                                                                                        भ्याकेन्सी लगायतका जानकारी प्राप्त गर्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>लेख लेख्नुहोस्: </b>आफ्नो विचार कान्तिपुर
+                                                                                        वेभसाइटमा प्रकाशनका लागि लेख्न सक्नुहुनेछ।</li>
+                                                                                        <li class="mt-2"><b>प्रोफाइल:</b> आफ्नो सदस्यता विवरण प्राप्त गर्न
+                                                                                            सक्नुहुनेछ ।</li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                                <div class="tab-pane fade" id="प्रोफाइल-tab-pane" role="tabpanel" aria-labelledby="प्रोफाइल-tab"
+                                                    tabindex="0">
+                                                    <hr style="margin-top: -2px;">
+                                                    <div class="LOGINSCROOL">
+                                                        <div class="row" style="background-color: rgb(245, 239, 239);">
+                                                            <div class="mt-3 mb-2">
+                                                                <h6 class="ms-4"><b class="TEXT">लगइन</b></h6>
+                                                                <h6 class="ms-4"><b class="TEXT">संकलित समाचार र थप सूचना प्राप्त गर्नुहोस्</b></h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row justify-content-center mt-5">
+                                                            <div class="col-md-9 text-center BOX mb-5" style=" border: 1px solid rgb(209, 203, 203);">
+                                                                <div class="mt-5 mb-4">
+                                                                    <img src="https://jcss-cdn.ekantipur.com/kantipurdaily/images/publication.png"
+                                                                        alt="">
+                                                                    <span><b>कान्तिपुर नेटवर्क</b></span>
+                                                                    <span class="ms-2 text-secondary">लगइन</span>
+                                                                    <hr>
+                                                                </div>
+                                                                <div class="row mt-5">
+                                                                    <div class="col-md-6 text-center mt-4">
+                                                                        <button
+                                                                            style="background-color: #3c5a99;color: white; border: none;width: 200px; height: 40px;border-radius: 3px;">
+                                                                            <i class="fa-brands fa-facebook-f"></i>
+                                                                            <b class="ms-2"> फेसबुकबाट लगइन</b>
+                                                                        </button>
+                                                                        <h6 class="mt-5"><b class="text-secondary">अथवा</b></h6>
+                                                                        <input class="mt-3" type="email" placeholder="ई-मेल"
+                                                                            style="border-radius: 5px; width: 350px; border: 1px solid gray;">
+                                                                        <input class="mt-3" type="email" placeholder="पासवर्ड"
+                                                                            style="border-radius: 5px; width: 350px; border: 1px solid gray;">
+                                                                        <p class="SMTEXT text-secondary mt-2">पासवर्ड बिर्सनुभयो ?</p>
+                                                                        <button class="LOGIN mt-3"
+                                                                            style="border: 1px solid gray;width: 200px; height: 40px;border-radius: 3px;">
+                                                                            <b class="ms-2"> लगइन</b>
+                                                                        </button>
+                                                                        <div class="mt-4 mb-4">
+                                                                            <p class="SMTEXT text-secondary mt-2">तपाईंको खाता छैन ? <a href=""
+                                                                                    style="text-decoration: none;color: black;"><span
+                                                                                        class="LOGINUL">साइन अप </span></a>गर्नुहोस् ।</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-5 mt-4">
+                                                                        <div class="text-center">
+                                                                            <i class="fa-regular fa-circle-question"></i><span class="ms-2"
+                                                                                style="font-size: 17px;font-weight: 500;">कान्तिपुर नेटवर्कसँग किन आवद्ध
+                                                                                हुने ?</span>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 text-start mt-3" style="font-size: 13px;">
+                                                                                <ul>
+                                                                                    <li class="mt-2"><b>समाचार डाइजेस्ट:</b> तपाईले पढ्न छुटाउनुभएका
+                                                                                        समाचारहरु पढ्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>संग्रहित समाचार:</b> तपाईले संग्रह गर्नुभएको
+                                                                                        समाचारहरु पढ्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>प्रस्तावित समाचार:</b> तपाईका रुचि अनुसारका
+                                                                                        समाचारहरु पढ्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>विविध: राशिफल,</b> चलचित्र, विनिमय दर तथा
+                                                                                        भ्याकेन्सी लगायतका जानकारी प्राप्त गर्न सक्नुहुनेछ ।</li>
+                                                                                    <li class="mt-2"><b>लेख लेख्नुहोस्: </b>आफ्नो विचार कान्तिपुर
+                                                                                        वेभसाइटमा प्रकाशनका लागि लेख्न सक्नुहुनेछ।</li>
+                                                                                    <li class="mt-2"><b>प्रोफाइल:</b> आफ्नो सदस्यता विवरण प्राप्त गर्न
+                                                                                        सक्नुहुनेछ ।</li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </header>
                     </div>
                 </div>
             </div>
         </nav>
+        <!-- Scrool -->
         <div class="row SCROOL">
+            <!-- Navigation Bar -->
             <div class="col-md-12" style="border-bottom:1px solid gray;">
                 <nav class="navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid">
@@ -257,9 +821,12 @@
                     </div>
                 </nav>
             </div>
+            <!-- Introducation -->
             <div class="col-md-9 mt-4">
+                <!-- Ads -->
                 <img src="https://assets-cdn.ekantipur.com/uploads/source/ads/berger-flexobanner-970120-1352024044900.gif"
                     class="w-100">
+                <!-- Introducation -->
                 <div class="row mt-3">
                     <div class="col-md-5" style="border-right: 1px solid gray;">
                         <a href="" style="color: black; text-decoration: none;">
@@ -596,6 +1163,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- News -->
                 <div class="row mt-5">
                     <div class="col-md-2 mt-4">
                         <div class="dropend mt-5">
@@ -782,10 +1350,12 @@
                         </div>
                     </div>
                 </div>
+                <!--2nd Ads -->
                 <div class="row mt-4">
                     <img src="https://assets-cdn.ekantipur.com/uploads/source/ads/970-x-120-1-0282024055516.gif"
                         class="w-100">
                 </div>
+                <!-- Province News -->
                 <div class="row mt-5">
                     <div class="col-md-2">
                         <div class="dropend mt-2">
@@ -1038,11 +1608,106 @@
                         </div>
                     </div>
                 </div>
+                <!-- 4th Ads -->
                 <div class="row mt-4">
                     <img src="https://assets-cdn.ekantipur.com/uploads/source/ads/tata970x120-optimized-0952024115046.gif"
                         class="w-100">
                 </div>
+                <!-- Video -->
+                <div class="row mt-5">
+                    <div class="col-md-2 mt-4">
+                        <div class="dropend mt-5">
+                            <a href="" class=" dropend dropdown-toggle"
+                                style="text-decoration: none; color: black;"><span class="BAR"><b>Video</b></span></a>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <hr class="mb-5">
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <img alt="" class="w-100" src="https://i3.ytimg.com/vi/s8qTIqoZ3sY/sddefault.jpg">
+                                <a href="" style="color: black; text-decoration: none;">
+                                    <h5><b class="BAR mt-3">
+
+                                            त्रिपालको सहारामा २२८ वर्ष पुरानो दरबार</b></h5>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <img alt="" class="w-100" src="https://i3.ytimg.com/vi/yjNuS7yZ0c8/sddefault.jpg">
+                                <a href="" style="color: black; text-decoration: none;">
+                                    <h5><b class="BAR mt-3">
+
+                                            सभापति यादव र सांसद किराँतीबीच संसदीय समितिमा चर्काचर्की</b></h5>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <img alt="" class="w-100" src="https://i3.ytimg.com/vi/eP0nTmKN258/sddefault.jpg">
+                                <a href="" style="color: black; text-decoration: none;">
+                                    <h5><b class="BAR mt-3">
+
+                                            यसरी दुर्घटना भएको थियो सौर्य एयरलाइन्स</b></h5>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <img alt="" class="w-100" src="https://i3.ytimg.com/vi/5yaWTk6m94I/sddefault.jpg">
+                                <a href="" style="color: black; text-decoration: none;">
+                                    <h5><b class="BAR mt-3">मार्सीको मनमोहक फाँट</b></h5>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <img alt="" class="w-100" src="https://i3.ytimg.com/vi/YayEln23O7k/sddefault.jpg">
+                                <a href="" style="color: black; text-decoration: none;">
+                                    <h5><b class="BAR mt-3">
+                                            मह शिकार : अग्ला भीरमा जोखिमको खेल </b></h5>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <img alt="" class="w-100" src="https://i3.ytimg.com/vi/4wrj26DndGQ/sddefault.jpg">
+                                <a href="" style="color: black; text-decoration: none;">
+                                    <h5><b class="BAR mt-3">
+                                            भीमेश्वर मन्दिरको शिलामा ‘पसिना’</b></h5>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Photo Feature -->
+                <div class="row mt-5">
+                    <div class="col-md-12 mt-4">
+                        <div class="dropend mt-5">
+                            <a href="" class=" dropend dropdown-toggle"
+                                style="text-decoration: none; color: black; width: 100%;"><span class="BAR"><b>Photo
+                                        Feature</b></span></a>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12 PHOTO">
+                            <img style="width: 100%;" alt="हसिनालाई देशै छाड्न बाध्य पार्ने बंगलादेशको आन्दोलन [तस्बिरहरू]"
+                                src="https://assets-cdn-api.ekantipur.com/thumb.php?src=https://assets-cdn.ekantipur.com/uploads/source/news/kantipur/2024/third-party/bangladesh-13-0582024032700-1000x0.jpg&amp;w=1001&amp;h=0">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row mt-4">
+                            <div class="col-md-4 PHOTO">
+                                <img class="w-100" alt="भगवानबहालमा नागराज पुन:स्थाापित [तस्बिरहरु]"
+                                    src="https://assets-cdn-api.ekantipur.com/thumb.php?src=https://assets-cdn.ekantipur.com/uploads/source/news/kantipur/2024/miscellaneous/the-10th-and-11th-century-nagraja-statue-which-was-lost-in-1982-reinstated-to-its-original-place-in-naxal-bhagwanbahal-0582024123904-1000x0.jpg&amp;w=601&amp;h=0">
+                            </div>
+                            <div class="col-md-4 PHOTO">
+                                <img class="w-100" alt="सुरु भयो गुँला पर्व [तस्बिरहरू]"
+                                    src="https://assets-cdn-api.ekantipur.com/thumb.php?src=https://assets-cdn.ekantipur.com/uploads/source/news/kantipur/2024/miscellaneous/gunla-parva-aarambha-photo-feature-44-0582024034618-1000x0.jpg&amp;w=601&amp;h=0">
+                            </div>
+                            <div class="col-md-4 PHOTO">
+                                <img class="w-100" alt="मनाइयो भोटो जात्रा [फोटोफिचर]"
+                                    src="https://assets-cdn-api.ekantipur.com/thumb.php?src=https://assets-cdn.ekantipur.com/uploads/source/news/kantipur/2024/miscellaneous/4525985595157772508704913918642976446000711n-0482024022808-1000x0.jpg&amp;w=601&amp;h=0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- Right side -->
             <div class="col-md-3 mt-2">
                 <div class="row mt-3 ms-2">
                     <a class="nav-link" href="#" style="color: blue;"><b class="ITEM">विचार</b></a>
@@ -1192,7 +1857,8 @@
                 <div>
                     <div class="row mt-3">
                         <div class="col-md-8 mt-3 mb-3">
-                            <a class="nav-link" href="#" style="color: rgb(13, 120, 162);"><b class="ITEM3">Latest News</b></a>
+                            <a class="nav-link" href="#" style="color: rgb(13, 120, 162);"><b class="ITEM3">Latest
+                                    News</b></a>
                         </div>
                         <div class="col-md-4 text-end mb-3 mt-3">
                             <a class="nav-link" href="#" style="color: black;"><span class="ITEM4">view more</span></a>
@@ -1200,7 +1866,8 @@
                     </div>
                 </div>
                 <div class="mt-2">
-                    <a class="nav-link" href="#" style="color: black;"><b class="ITEM4 TEXT">नलकुटवा पेस्तोलसहित एकजना पक्राउ</b></a>
+                    <a class="nav-link" href="#" style="color: black;"><b class="ITEM4 TEXT">नलकुटवा पेस्तोलसहित एकजना
+                            पक्राउ</b></a>
                     <div class="d-flex gap-2">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
@@ -1217,8 +1884,9 @@
                 </div>
                 <hr>
                 <div class="mt-2">
-                    <a class="nav-link" href="#" style="color: black;"><b class="ITEM4 TEXT">बसको ठक्करबाट मोटरसाइकल चालकको मृत्यु
-                    </b></a>
+                    <a class="nav-link" href="#" style="color: black;"><b class="ITEM4 TEXT">बसको ठक्करबाट मोटरसाइकल
+                            चालकको मृत्यु
+                        </b></a>
                     <div class="d-flex gap-2">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
@@ -1232,12 +1900,13 @@
                         </div>
                         <div class="SMALLTEXT mt-1">
                             २२:३५
-                            </div>
+                        </div>
                     </div>
                 </div>
                 <hr>
                 <div class="mt-2">
-                    <a class="nav-link" href="#" style="color: black;"><b class="ITEM4 TEXT">देशभर ३४ हजार दुई सय ६७ किमि सडक विस्तार</b></a>
+                    <a class="nav-link" href="#" style="color: black;"><b class="ITEM4 TEXT">देशभर ३४ हजार दुई सय ६७
+                            किमि सडक विस्तार</b></a>
                     <div class="d-flex gap-2">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
@@ -1254,7 +1923,8 @@
                 </div>
                 <hr>
                 <div class="mt-2">
-                    <a class="nav-link" href="#" style="color: black;"><b class="ITEM4 TEXT">नरकटघारीमा लुकेको बाघ झण्डै १६ घण्टापछि नियन्त्रणमा</b></a>
+                    <a class="nav-link" href="#" style="color: black;"><b class="ITEM4 TEXT">नरकटघारीमा लुकेको बाघ झण्डै
+                            १६ घण्टापछि नियन्त्रणमा</b></a>
                     <div class="d-flex gap-2">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
@@ -1467,9 +2137,34 @@
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-2.1.1.js"></script4
+<script src="https://code.jquery.com/jquery-2.1.1.js"></script>
 <script src="https://unpkg.com/xzoom/dist/xzoom.min.js"></script>
 <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js"></script>
+<script>
+    //This is just to add/remove menu-open class on body using plain javascript (practice purpose). Jquery code to replace this is: 
 
+    // $('.hamburger-menu, .link').click(function () {
+    // 	$('body').hasClass('menu-open') ? ($('body').removeClass('menu-open')) : ($('body').addClass('menu-open'));
+    // });
+
+    //However, don't forget to include jQuery for it to work.
+
+    function toggleMenu() {
+        var body = document.body;
+        body.className.match(/(?:^|\s)menu-open(?!\S)/) ? body.className = body.className.replace(/(?:^|\s)menu-open(?!\S)/g, '') : body.className += "menu-open";
+    }
+
+    window.onload = function () {
+        var hamburger = document.getElementsByClassName('hamburger-menu')[0];
+        var menuLinks = document.getElementsByClassName('link');
+
+        hamburger.addEventListener('click', toggleMenu);
+
+        for (var i = 0; i < menuLinks.length; ++i) {
+            var menuLink = menuLinks[i];
+            menuLink.addEventListener('click', toggleMenu);
+        }
+    }
+</script>
 </html>
